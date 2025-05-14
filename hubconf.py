@@ -6,7 +6,7 @@ from models.detr import DETR, PostProcess, SetCriterion
 from models.position_encoding import PositionEmbeddingSine
 from models.segmentation import DETRsegm, PostProcessPanoptic
 from models.transformer import Transformer
-from .matcher import build_matcher
+from models.matcher import build_matcher
 
 
 dependencies = ["torch", "torchvision"]
