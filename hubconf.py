@@ -35,7 +35,7 @@ def detr_resnet50(pretrained=False, num_classes=91, return_postprocessor=False):
     weight_dict = {'loss_ce': 1, 'loss_bbox': 5}
     weight_dict['loss_giou'] = 2
     losses = ['labels', 'boxes', 'cardinality']
-    matcher = HungarianMatcher({'cost_class': 1, 'cost_bbox': 5, 'cost_giou': 2})
+    matcher = HungarianMatcher()
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://dl.fbaipublicfiles.com/detr/detr-r50-e632da11.pth", map_location="cpu", check_hash=True
