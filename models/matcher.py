@@ -17,7 +17,7 @@ class HungarianMatcher(nn.Module):
     while the others are un-matched (and thus treated as non-objects).
     """
 
-    def __init__(self, cost_class: float = 1, cost_bbox: float = 1, cost_giou: float = 1):
+    def __init__(self):
         """Creates the matcher
 
         Params:
@@ -26,10 +26,9 @@ class HungarianMatcher(nn.Module):
             cost_giou: This is the relative weight of the giou loss of the bounding box in the matching cost
         """
         super().__init__()
-        self.cost_class = cost_class
-        print(cost_class)
-        self.cost_bbox = cost_bbox
-        self.cost_giou = cost_giou
+        self.cost_class = 1
+        self.cost_bbox = 5
+        self.cost_giou = 2
         assert cost_class != 0 or cost_bbox != 0 or cost_giou != 0, "all costs cant be 0"
 
     @torch.no_grad()
