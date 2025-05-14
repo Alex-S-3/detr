@@ -199,7 +199,7 @@ class SetCriterion(nn.Module):
 
     def _get_tgt_permutation_idx(self, indices):
         # permute targets following indices
-        batch_idx = torch.cat([torch.full_like(tgt, i) for i, (_, tgt) in enumerate((indices[0]))])
+        batch_idx = torch.cat([torch.full_like(tgt, i) for i, (_, tgt) in enumerate((indices[0])])
         tgt_idx = torch.cat([tgt for (_, tgt) in indices])
         return batch_idx, tgt_idx
 
