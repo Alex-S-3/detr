@@ -12,7 +12,7 @@ from models.matcher import HungarianMatcher
 dependencies = ["torch", "torchvision"]
 
 
-def _make_detr(backbone_name: str, dilation=False, num_classes=1, mask=False):
+def _make_detr(backbone_name: str, dilation=False, num_classes=91, mask=False):
     hidden_dim = 256
     backbone = Backbone(backbone_name, train_backbone=True, return_interm_layers=mask, dilation=dilation)
     pos_enc = PositionEmbeddingSine(hidden_dim // 2, normalize=True)
@@ -43,7 +43,7 @@ def detr_resnet50(pretrained=False, num_classes=91, return_postprocessor=False):
         model.load_state_dict(checkpoint["model"])
     if return_postprocessor:
         return model, PostProcess()
-    return model, SetCriterion(91, matcher=matcher, weight_dict=weight_dict, eos_coef=0.1, losses=losses)
+    return model, SetCriterion(1, matcher=matcher, weight_dict=weight_dict, eos_coef=0.1, losses=losses)
 
 
 def detr_resnet50_dc5(pretrained=False, num_classes=91, return_postprocessor=False):
