@@ -192,15 +192,14 @@ class SetCriterion(nn.Module):
 
     def _get_src_permutation_idx(self, indices):
         # permute predictions following indices
-        print(indices)
-        batch_idx = [torch.full_like(indices[0])]
-        src_idx = indices[0]
+        batch_idx = torch.cat([torch.full_like(src, i) for i, (src, _) in enumerate(indices[0])])
+        src_idx = torch.cat([src for (src, _) in indices])
         return batch_idx, src_idx
 
     def _get_tgt_permutation_idx(self, indices):
         # permute targets following indices
-        batch_idx = [torch.full_like(indices[1])]
-        src_idx = indices[1]
+        batch_idx = torch.cat([torch.full_like(tgt, i) for i, (_, tgt) in enumerate(indices[0])])
+        tgt_idx = torch.cat([tgt for (_, tgt) in indices])
         return batch_idx, tgt_idx
 
     def get_loss(self, loss, outputs, targets, indices, num_boxes, **kwargs):
