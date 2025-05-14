@@ -43,7 +43,7 @@ def detr_resnet50(pretrained=False, num_classes=91, return_postprocessor=False):
         model.load_state_dict(checkpoint["model"])
     if return_postprocessor:
         return model, PostProcess()
-    return model, SetCriterion(1, matcher=matcher, weight_dict=weight_dict, eos_coef=0.1, losses=losses)
+    return model, SetCriterion(2, matcher=matcher, weight_dict=weight_dict, eos_coef=0.1, losses=losses)
 
 
 def detr_resnet50_dc5(pretrained=False, num_classes=91, return_postprocessor=False):
