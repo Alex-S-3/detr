@@ -77,8 +77,8 @@ class HungarianMatcher(nn.Module):
         C = C.view(bs, num_queries, -1).cpu()
         print(C.shape)
         sizes = [len(v["boxes"]) for v in targets][0]
-        indices = [[linear_sum_assignment(C[0])]]
-        return [(torch.as_tensor(i, dtype=torch.int64), torch.as_tensor(j, dtype=torch.int64)) for i, j in indices]
+        indices = [linear_sum_assignment(C[0])]
+        return [[(torch.as_tensor(i, dtype=torch.int64), torch.as_tensor(j, dtype=torch.int64)) for i, j in indices]]
 
 
 def build_matcher(set_cost_class, set_cost_bbox, set_cost_giou):
