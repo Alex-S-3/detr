@@ -6,6 +6,8 @@ from models.detr import DETR, PostProcess, SetCriterion
 from models.position_encoding import PositionEmbeddingSine
 from models.segmentation import DETRsegm, PostProcessPanoptic
 from models.transformer import Transformer
+from .matcher import build_matcher
+
 
 dependencies = ["torch", "torchvision"]
 
@@ -30,11 +32,15 @@ def detr_resnet50(pretrained=False, num_classes=91, return_postprocessor=False):
     Achieves 42/62.4 AP/AP50 on COCO val5k.
     """
     model = _make_detr("resnet50", dilation=False, num_classes=num_classes)
+    weight_dict = {'loss_ce': 1, 'loss_bbox': 5}
+    weight_dict['loss_giou'] = 2
+    losses = ['labels', 'boxes', 'cardinality']
+    matcher = build_matcher({'cost_class': 10, 'cost_bbox': 5, 'cost_giou': 2})
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://dl.fbaipublicfiles.com/detr/detr-r50-e632da11.pth", map_location="cpu", check_hash=True
         )
-        model.load_state_dict(checkpoint["model"]), SetCriterion()
+        model.load_state_dict(checkpoint["model"]), SetCriterion(91, matcher=matcher, weight_dict=weight_dict, eos_coef=0.1, losses=losses)
     if return_postprocessor:
         return model, PostProcess()
     return model
