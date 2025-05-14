@@ -27,6 +27,7 @@ class HungarianMatcher(nn.Module):
         """
         super().__init__()
         self.cost_class = cost_class
+        print(cost_class)
         self.cost_bbox = cost_bbox
         self.cost_giou = cost_giou
         assert cost_class != 0 or cost_bbox != 0 or cost_giou != 0, "all costs cant be 0"
