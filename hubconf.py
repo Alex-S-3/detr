@@ -6,7 +6,7 @@ from models.detr import DETR, PostProcess, SetCriterion
 from models.position_encoding import PositionEmbeddingSine
 from models.segmentation import DETRsegm, PostProcessPanoptic
 from models.transformer import Transformer
-from models.matcher import build_matcher
+from models.matcher import HungarianMatcher
 
 
 dependencies = ["torch", "torchvision"]
@@ -35,7 +35,7 @@ def detr_resnet50(pretrained=False, num_classes=91, return_postprocessor=False):
     weight_dict = {'loss_ce': 1, 'loss_bbox': 5}
     weight_dict['loss_giou'] = 2
     losses = ['labels', 'boxes', 'cardinality']
-    matcher = build_matcher(10, 5, 2)
+    matcher = HungarianMatcher({'cost_class': 10, 'cost_bbox': 5, 'cost_giou': 2})
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://dl.fbaipublicfiles.com/detr/detr-r50-e632da11.pth", map_location="cpu", check_hash=True
